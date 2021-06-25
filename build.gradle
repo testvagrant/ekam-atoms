@@ -1,0 +1,138 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'signing'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Use TestNG framework, also requires calling test.useTestNG() below
+    implementation('org.testng:testng:7.4.0')
+
+    //google
+    implementation('com.google.inject:guice:5.0.1')
+
+    //selenium
+    implementation('org.seleniumhq.selenium:selenium-java:3.141.59')
+    implementation('io.appium:java-client:7.5.1')
+
+    // generic wait
+    implementation('org.awaitility:awaitility:4.1.0')
+}
+
+test {
+    useTestNG()
+}
+
+task sourceJar(type: Jar) {
+    classifier "sources"
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier "javadoc"
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives jar
+    archives sourceJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            customizePom(pom)
+            groupId 'com.testvagrant.ekam.atoms'
+            artifactId 'ekam'
+            version '0.0.1-alpha'
+
+            from components.java
+
+            artifact(sourceJar) {
+                classifier = 'sources'
+            }
+            artifact(javadocJar) {
+                classifier = 'javadoc'
+            }
+
+        }
+    }
+
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username sonatypeUsername
+                password sonatypePassword
+            }
+        }
+    }
+}
+
+def customizePom(pom) {
+    pom.withXml {
+        def root = asNode()
+
+        // eliminate test-scoped dependencies (no need in maven central POMs)
+        root.dependencies.removeAll { dep ->
+            dep.scope == "test"
+        }
+
+        // add all items necessary for maven central publication
+        root.children().last() + {
+            resolveStrategy = Closure.DELEGATE_FIRST
+
+            description ''
+            name 'Atoms'
+            url 'https://gitlab.com/testvagrant/automation-studio/ekam-atoms'
+            organization {
+                name 'com.testvagrant.optimus'
+                url 'https://gitlab.com/testvagrant/automation-studio'
+            }
+            issueManagement {
+                system 'GitLab'
+                url 'https://gitlab.com/testvagrant/automation-studio/ekam-atoms/issues'
+            }
+            licenses {
+                license {
+                    name 'MIT License'
+                    url 'https://gitlab.com/testvagrant/automation-studio/ekam/-/blob/master/LICENSE'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url 'https://gitlab.com/testvagrant/automation-studio/ekam-atoms'
+                connection 'https://gitlab.com/testvagrant/automation-studio/ekam-atoms.git'
+                developerConnection 'git@gitlab.com:testvagrant/automation-studio/ekam-atoms.git'
+            }
+            developers {
+                developer {
+                    name 'Sudarshan GS'
+                }
+                developer {
+                    name 'Krishnanand B'
+                }
+            }
+        }
+    }
+}
+
+model {
+    tasks.generatePomFileForMavenJavaPublication {
+        destination = file("$buildDir/generated-pom.xml")
+    }
+}
+
+task runTests(type: Test) {
+    useTestNG()
+}
+
+
+signing {
+    sign publishing.publications
+}
