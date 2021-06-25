@@ -87,7 +87,7 @@ def customizePom(pom) {
         root.children().last() + {
             resolveStrategy = Closure.DELEGATE_FIRST
 
-            description ''
+            description 'Ekam atoms for all common driver actions'
             name 'Atoms'
             url 'https://gitlab.com/testvagrant/automation-studio/ekam-atoms'
             organization {
