@@ -47,8 +47,8 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             customizePom(pom)
-            groupId 'com.testvagrant.ekam.atoms'
-            artifactId 'ekam'
+            groupId 'com.testvagrant.ekam'
+            artifactId 'ekam-atoms'
             version '0.0.1-alpha'
 
             from components.java
