@@ -4,6 +4,8 @@ plugins {
     id 'signing'
 }
 
+sourceCompatibility = 1.8
+
 repositories {
     mavenCentral()
 }
@@ -49,7 +51,7 @@ publishing {
             customizePom(pom)
             groupId 'com.testvagrant.ekam'
             artifactId 'ekam-atoms'
-            version '0.0.1-alpha'
+            version '0.0.2-alpha'
 
             from components.java
 
