@@ -169,7 +169,7 @@ public class Element {
     return this;
   }
 
-  protected WebElement getElement() {
+  public WebElement getElement() {
     try {
       wait.atMost(Duration.ofSeconds(5)).until(() -> driver.findElement(locator) != null);
       return driver.findElement(locator);
@@ -178,7 +178,7 @@ public class Element {
     }
   }
 
-  protected <T> T find(By selector, Class<T> tClass) {
+  public <T> T find(By selector, Class<T> tClass) {
     try {
       return tClass
           .getDeclaredConstructor(WebDriver.class, By.class)
@@ -188,7 +188,7 @@ public class Element {
     }
   }
 
-  protected Element find(By selector) {
+  public Element find(By selector) {
     try {
       return new Element(driver, new ByChained(locator, selector));
     } catch (Exception ex) {

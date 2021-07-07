@@ -9,6 +9,8 @@ import io.appium.java_client.touch.offset.ElementOption;
 import org.awaitility.Awaitility;
 import org.awaitility.core.ConditionFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -214,10 +216,28 @@ public class Element {
     return this;
   }
 
-  protected MobileElement getElement() {
+  public MobileElement getElement() {
     try {
       wait.atMost(Duration.ofSeconds(5)).until(() -> driver.findElement(locator) != null);
       return driver.findElement(locator);
+    } catch (Exception ex) {
+      throw new RuntimeException(String.format("Element with selector: %s not found", locator));
+    }
+  }
+
+  public <T> T find(By selector, Class<T> tClass) {
+    try {
+      return tClass
+          .getDeclaredConstructor(WebDriver.class, By.class)
+          .newInstance(driver, new ByChained(locator, selector));
+    } catch (Exception ex) {
+      throw new RuntimeException(String.format("Element with selector: %s not found", locator));
+    }
+  }
+
+  public Element find(By selector) {
+    try {
+      return new Element(driver, new ByChained(locator, selector));
     } catch (Exception ex) {
       throw new RuntimeException(String.format("Element with selector: %s not found", locator));
     }
