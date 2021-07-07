@@ -69,11 +69,11 @@ public class QueryFunctions {
   public String ignoreSpaceAndCase(String text, boolean partial) {
     if (partial) {
       return String.format(
-              "contains(normalize-space(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')) , '%1$s')",
-              text.toLowerCase());
+          "contains(normalize-space(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')) , '%1$s')",
+          text.toLowerCase());
     }
     return String.format(
-            "normalize-space(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')) = '%1$s'",
-            text.toLowerCase());
+        "normalize-space(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')) = '%1$s'",
+        text.toLowerCase());
   }
 }

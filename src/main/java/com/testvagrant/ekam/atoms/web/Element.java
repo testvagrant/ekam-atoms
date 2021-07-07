@@ -18,12 +18,11 @@ import java.util.function.Function;
 public class Element {
 
   protected final WebDriver driver;
-  protected By locator;
   protected final Actions actions;
-  protected QueryFunctions queryFunctions;
-
   private final Duration timeout;
   private final ConditionFactory wait;
+  protected By locator;
+  protected QueryFunctions queryFunctions;
 
   @Inject
   public Element(WebDriver driver, By locator) {

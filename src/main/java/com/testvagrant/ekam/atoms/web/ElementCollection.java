@@ -39,7 +39,7 @@ public class ElementCollection {
         .collect(Collectors.toList());
   }
 
-  protected List<WebElement> get() {
+  public List<WebElement> get() {
     wait.atMost(Duration.ofSeconds(10))
         .until(
             () -> {
