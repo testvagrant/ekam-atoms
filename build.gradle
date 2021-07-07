@@ -11,9 +11,6 @@ repositories {
 }
 
 dependencies {
-    // Use TestNG framework, also requires calling test.useTestNG() below
-    implementation('org.testng:testng:7.4.0')
-
     //google
     implementation('com.google.inject:guice:5.0.1')
 
@@ -23,10 +20,6 @@ dependencies {
 
     // generic wait
     implementation('org.awaitility:awaitility:4.1.0')
-}
-
-test {
-    useTestNG()
 }
 
 task sourceJar(type: Jar) {
@@ -51,7 +44,7 @@ publishing {
             customizePom(pom)
             groupId 'com.testvagrant.ekam'
             artifactId 'ekam-atoms'
-            version '0.0.2-alpha'
+            version '0.0.1-beta'
 
             from components.java
 
