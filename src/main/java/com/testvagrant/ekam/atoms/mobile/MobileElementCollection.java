@@ -1,31 +1,30 @@
 package com.testvagrant.ekam.atoms.mobile;
 
 import com.google.inject.Inject;
+import com.testvagrant.ekam.atoms.MultiPlatformFinder;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.awaitility.Awaitility;
 import org.awaitility.core.ConditionFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ElementCollection {
-  protected final By locator;
-  private final AppiumDriver<MobileElement> driver;
-  private final ConditionFactory wait;
-  private final Duration timeout;
+public class MobileElementCollection extends BaseMobileElement {
 
   @Inject
-  public ElementCollection(AppiumDriver<MobileElement> driver, By locator) {
-    this.driver = driver;
-    this.timeout = Duration.ofSeconds(30);
-    this.locator = locator;
-    this.wait = buildFluentWait(timeout); // Default Timeout
+  public MobileElementCollection(AppiumDriver<MobileElement> driver, By locator) {
+    super(driver, locator);
+  }
+
+  @Inject
+  public MobileElementCollection(
+      AppiumDriver<MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
+    super(driver, multiPlatformFinder);
   }
 
   public List<String> getTextValues() {
@@ -49,7 +48,7 @@ public class ElementCollection {
     return driver.findElements(locator);
   }
 
-  public ElementCollection waitUntilPresent() {
+  public MobileElementCollection waitUntilPresent() {
     try {
       waitUntilCondition(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
       return this;
@@ -59,7 +58,7 @@ public class ElementCollection {
     }
   }
 
-  public ElementCollection waitUntilPresent(Duration duration) {
+  public MobileElementCollection waitUntilPresent(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.presenceOfAllElementsLocatedBy(locator), duration);
       return this;
@@ -69,7 +68,7 @@ public class ElementCollection {
     }
   }
 
-  public ElementCollection waitUntilVisible() {
+  public MobileElementCollection waitUntilVisible() {
     try {
       waitUntilCondition(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
       return this;
@@ -79,7 +78,7 @@ public class ElementCollection {
     }
   }
 
-  public ElementCollection waitUntilVisible(Duration duration) {
+  public MobileElementCollection waitUntilVisible(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator), duration);
       return this;
@@ -89,7 +88,7 @@ public class ElementCollection {
     }
   }
 
-  public ElementCollection waitUntilInVisible() {
+  public MobileElementCollection waitUntilInVisible() {
     try {
       waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator));
       return this;
@@ -99,7 +98,7 @@ public class ElementCollection {
     }
   }
 
-  public ElementCollection waitUntilInVisible(Duration duration) {
+  public MobileElementCollection waitUntilInVisible(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator), duration);
       return this;
@@ -109,7 +108,7 @@ public class ElementCollection {
     }
   }
 
-  public ElementCollection waitUntilElementCountToBeMoreThan(int elementCountToBeGreaterThan) {
+  public MobileElementCollection waitUntilElementCountToBeMoreThan(int elementCountToBeGreaterThan) {
     try {
       waitUntilCondition(
           ExpectedConditions.numberOfElementsToBeMoreThan(locator, elementCountToBeGreaterThan));
@@ -120,7 +119,7 @@ public class ElementCollection {
     }
   }
 
-  public ElementCollection waitUntilElementCountToBeMoreThan(
+  public MobileElementCollection waitUntilElementCountToBeMoreThan(
       int elementCountToBeGreaterThan, Duration duration) {
     try {
       waitUntilCondition(
@@ -133,7 +132,7 @@ public class ElementCollection {
     }
   }
 
-  public ElementCollection waitUntilElementCountToBeLessThan(int elementCountToBeLessThan) {
+  public MobileElementCollection waitUntilElementCountToBeLessThan(int elementCountToBeLessThan) {
     try {
       waitUntilCondition(
           ExpectedConditions.numberOfElementsToBeLessThan(locator, elementCountToBeLessThan));
@@ -144,7 +143,7 @@ public class ElementCollection {
     }
   }
 
-  public ElementCollection waitUntilElementCountToBeLessThan(
+  public MobileElementCollection waitUntilElementCountToBeLessThan(
       int elementCountToBeLessThan, Duration duration) {
     try {
       waitUntilCondition(
@@ -159,22 +158,5 @@ public class ElementCollection {
 
   private ConditionFactory buildFluentWait(Duration duration) {
     return Awaitility.await().atMost(duration).ignoreExceptions();
-  }
-
-  private <T> void waitUntilCondition(ExpectedCondition<T> webElementExpectedCondition) {
-    waitUntilCondition(webElementExpectedCondition, timeout);
-  }
-
-  private <T> void waitUntilCondition(
-      ExpectedCondition<T> webElementExpectedCondition, Duration duration) {
-    wait.atMost(duration)
-        .until(
-            () -> {
-              Object result = webElementExpectedCondition.apply(driver);
-              return result != null
-                      && result.getClass().getTypeName().toLowerCase().contains("boolean")
-                  ? (boolean) result
-                  : result != null;
-            });
   }
 }

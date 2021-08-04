@@ -1,38 +1,29 @@
 package com.testvagrant.ekam.atoms.mobile;
 
 import com.google.inject.Inject;
+import com.testvagrant.ekam.atoms.MultiPlatformFinder;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
-import org.awaitility.Awaitility;
-import org.awaitility.core.ConditionFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.ByChained;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
-public class Element {
+public class MobileElement extends BaseMobileElement {
 
-  protected final QueryFunctions queryFunctions;
-  protected final By locator;
-  private final AppiumDriver<MobileElement> driver;
-  private final ConditionFactory wait;
-  private final TouchAction<?> touchAction;
-  private final Duration timeout;
+  private io.appium.java_client.MobileElement element;
 
   @Inject
-  public Element(AppiumDriver<MobileElement> driver, By locator) {
-    this.driver = driver;
-    this.timeout = Duration.ofSeconds(30);
-    this.queryFunctions = new QueryFunctions();
-    this.locator = locator;
-    this.wait = buildFluentWait(timeout); // Default Timeout
-    this.touchAction = new TouchAction<>(driver);
+  public MobileElement(AppiumDriver<io.appium.java_client.MobileElement> driver, By locator) {
+    super(driver, locator);
+  }
+
+  @Inject
+  public MobileElement(AppiumDriver<io.appium.java_client.MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
+    super(driver, multiPlatformFinder);
   }
 
   public String getTextValue() {
@@ -43,13 +34,9 @@ public class Element {
     return getElement().getAttribute(attribute);
   }
 
-  public Element click() {
+  public MobileElement click() {
     waitUntilPresent();
-    wait.until(
-        () -> {
-          getElement().click();
-          return true;
-        });
+    getElement().click();
     return this;
   }
 
@@ -79,7 +66,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilDisplayed() {
+  public MobileElement waitUntilDisplayed() {
     try {
       waitUntilCondition(ExpectedConditions.visibilityOfElementLocated(locator));
       return this;
@@ -89,7 +76,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilDisplayed(Duration duration) {
+  public MobileElement waitUntilDisplayed(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.visibilityOfElementLocated(locator), duration);
       return this;
@@ -99,7 +86,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilInvisible() {
+  public MobileElement waitUntilInvisible() {
     try {
       waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator));
       return this;
@@ -109,7 +96,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilInvisible(Duration duration) {
+  public MobileElement waitUntilInvisible(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator), duration);
       return this;
@@ -119,7 +106,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilPresent() {
+  public MobileElement waitUntilPresent() {
     try {
       waitUntilCondition(ExpectedConditions.presenceOfElementLocated(locator));
       return this;
@@ -129,7 +116,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilPresent(Duration duration) {
+  public MobileElement waitUntilPresent(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.presenceOfElementLocated(locator), duration);
       return this;
@@ -139,7 +126,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilTextToBePresent(String text) {
+  public MobileElement waitUntilTextToBePresent(String text) {
     try {
       waitUntilCondition(ExpectedConditions.textToBePresentInElementLocated(locator, text));
       return this;
@@ -151,7 +138,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilTextToBePresent(String text, Duration duration) {
+  public MobileElement waitUntilTextToBePresent(String text, Duration duration) {
     try {
       waitUntilCondition(
           ExpectedConditions.textToBePresentInElementLocated(locator, text), duration);
@@ -164,7 +151,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilTextToBePresent() {
+  public MobileElement waitUntilTextToBePresent() {
     try {
       wait.until(() -> !getTextValue().trim().isEmpty());
       return this;
@@ -175,7 +162,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilTextToBePresent(Duration duration) {
+  public MobileElement waitUntilTextToBePresent(Duration duration) {
     try {
       wait.atMost(duration).until(() -> !getTextValue().trim().isEmpty());
       return this;
@@ -186,7 +173,7 @@ public class Element {
     }
   }
 
-  public Element waitUntilTextNotToBe(String text, boolean partial) {
+  public MobileElement waitUntilTextNotToBe(String text, boolean partial) {
     try {
       wait.until(
           () ->
@@ -202,12 +189,12 @@ public class Element {
     }
   }
 
-  public Element tap() {
+  public MobileElement tap() {
     touchAction.tap(ElementOption.element(getElement())).perform();
     return this;
   }
 
-  public Element longPress() {
+  public MobileElement longPress() {
     touchAction
         .longPress(ElementOption.element(getElement()))
         .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
@@ -216,7 +203,7 @@ public class Element {
     return this;
   }
 
-  public MobileElement getElement() {
+  public io.appium.java_client.MobileElement getElement() {
     try {
       wait.atMost(Duration.ofSeconds(5)).until(() -> driver.findElement(locator) != null);
       return driver.findElement(locator);
@@ -235,31 +222,21 @@ public class Element {
     }
   }
 
-  public Element find(By selector) {
+  public <T> T find(MultiPlatformFinder multiPlatformFinder, Class<T> tClass) {
     try {
-      return new Element(driver, new ByChained(locator, selector));
+      return tClass
+          .getDeclaredConstructor(WebDriver.class, By.class)
+          .newInstance(driver, new ByChained(locator, buildLocator(multiPlatformFinder)));
     } catch (Exception ex) {
       throw new RuntimeException(String.format("Element with selector: %s not found", locator));
     }
   }
 
-  private <T> void waitUntilCondition(ExpectedCondition<T> expectedCondition) {
-    waitUntilCondition(expectedCondition, timeout);
-  }
-
-  private <T> void waitUntilCondition(ExpectedCondition<T> expectedCondition, Duration duration) {
-    wait.atMost(duration)
-        .until(
-            () -> {
-              Object result = expectedCondition.apply(driver);
-              return result != null
-                      && result.getClass().getTypeName().toLowerCase().contains("boolean")
-                  ? (boolean) result
-                  : result != null;
-            });
-  }
-
-  private ConditionFactory buildFluentWait(Duration duration) {
-    return Awaitility.await().atMost(duration).ignoreExceptions();
+  public MobileElement find(By selector) {
+    try {
+      return new MobileElement(driver, new ByChained(locator, selector));
+    } catch (Exception ex) {
+      throw new RuntimeException(String.format("Element with selector: %s not found", locator));
+    }
   }
 }
