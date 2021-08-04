@@ -1,6 +1,7 @@
 package com.testvagrant.ekam.atoms.mobile;
 
 import com.google.inject.Inject;
+import com.testvagrant.ekam.atoms.MultiPlatformFinder;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.touch.WaitOptions;
@@ -14,14 +15,16 @@ import java.time.Duration;
 
 public class Element extends BaseElement {
 
+  private MobileElement element;
+
   @Inject
   public Element(AppiumDriver<MobileElement> driver, By locator) {
     super(driver, locator);
   }
 
   @Inject
-  public Element(AppiumDriver<MobileElement> driver, Finder finder) {
-    super(driver, finder);
+  public Element(AppiumDriver<MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
+    super(driver, multiPlatformFinder);
   }
 
   public String getTextValue() {
@@ -34,11 +37,7 @@ public class Element extends BaseElement {
 
   public Element click() {
     waitUntilPresent();
-    wait.until(
-        () -> {
-          getElement().click();
-          return true;
-        });
+    getElement().click();
     return this;
   }
 
@@ -224,11 +223,11 @@ public class Element extends BaseElement {
     }
   }
 
-  public <T> T find(Finder finder, Class<T> tClass) {
+  public <T> T find(MultiPlatformFinder multiPlatformFinder, Class<T> tClass) {
     try {
       return tClass
           .getDeclaredConstructor(WebDriver.class, By.class)
-          .newInstance(driver, new ByChained(locator, buildLocator(finder)));
+          .newInstance(driver, new ByChained(locator, buildLocator(multiPlatformFinder)));
     } catch (Exception ex) {
       throw new RuntimeException(String.format("Element with selector: %s not found", locator));
     }

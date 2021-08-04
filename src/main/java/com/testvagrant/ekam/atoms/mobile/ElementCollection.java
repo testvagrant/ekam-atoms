@@ -1,6 +1,7 @@
 package com.testvagrant.ekam.atoms.mobile;
 
 import com.google.inject.Inject;
+import com.testvagrant.ekam.atoms.MultiPlatformFinder;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.awaitility.Awaitility;
@@ -21,8 +22,9 @@ public class ElementCollection extends BaseElement {
   }
 
   @Inject
-  public ElementCollection(AppiumDriver<MobileElement> driver, Finder finder) {
-    super(driver, finder);
+  public ElementCollection(
+      AppiumDriver<MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
+    super(driver, multiPlatformFinder);
   }
 
   public List<String> getTextValues() {

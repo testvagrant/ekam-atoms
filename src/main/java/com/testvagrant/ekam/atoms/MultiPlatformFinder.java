@@ -1,4 +1,4 @@
-package com.testvagrant.ekam.atoms.mobile;
+package com.testvagrant.ekam.atoms;
 
 import lombok.*;
 import org.openqa.selenium.By;
@@ -8,7 +8,9 @@ import org.openqa.selenium.By;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Finder {
+public class MultiPlatformFinder {
   private By iosFindBy;
   private By androidFindBy;
+  private By webFindBy;
+  private By responsiveFindBy;
 }

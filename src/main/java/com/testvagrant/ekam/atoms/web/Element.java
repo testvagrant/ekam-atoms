@@ -1,37 +1,27 @@
 package com.testvagrant.ekam.atoms.web;
 
 import com.google.inject.Inject;
-import org.awaitility.Awaitility;
-import org.awaitility.core.ConditionFactory;
+import com.testvagrant.ekam.atoms.MultiPlatformFinder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.pagefactory.ByChained;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 import java.util.function.Function;
 
-public class Element {
-
-  protected final WebDriver driver;
-  protected final Actions actions;
-  private final Duration timeout;
-  private final ConditionFactory wait;
-  protected By locator;
-  protected QueryFunctions queryFunctions;
+public class Element extends BaseElement {
 
   @Inject
   public Element(WebDriver driver, By locator) {
-    this.driver = driver;
-    this.locator = locator;
-    actions = new Actions(driver);
-    queryFunctions = new QueryFunctions();
-    this.timeout = Duration.ofSeconds(10);
-    this.wait = buildFluentWait(timeout);
+    super(driver, locator);
+  }
+
+  @Inject
+  public Element(WebDriver driver, MultiPlatformFinder finder) {
+    super(driver, finder);
   }
 
   public String getTextValue() {
@@ -44,12 +34,7 @@ public class Element {
 
   public Element click() {
     waitUntilPresent();
-    wait.until(
-        () -> {
-          getElement().click();
-          return true;
-        });
-
+    getElement().click();
     return this;
   }
 
@@ -188,6 +173,16 @@ public class Element {
     }
   }
 
+  public <T> T find(MultiPlatformFinder multiPlatformFinder, Class<T> tClass) {
+    try {
+      return tClass
+          .getDeclaredConstructor(WebDriver.class, By.class)
+          .newInstance(driver, new ByChained(locator, buildLocator(multiPlatformFinder)));
+    } catch (Exception ex) {
+      throw new RuntimeException(String.format("Element with selector: %s not found", locator));
+    }
+  }
+
   public Element find(By selector) {
     try {
       return new Element(driver, new ByChained(locator, selector));
@@ -196,24 +191,11 @@ public class Element {
     }
   }
 
-  private ConditionFactory buildFluentWait(Duration duration) {
-    return Awaitility.await().atMost(duration).ignoreExceptions();
-  }
-
-  private <T> void waitUntilCondition(ExpectedCondition<T> webElementExpectedCondition) {
-    waitUntilCondition(webElementExpectedCondition, timeout);
-  }
-
-  private <T> void waitUntilCondition(
-      ExpectedCondition<T> webElementExpectedCondition, Duration duration) {
-    wait.atMost(duration)
-        .until(
-            () -> {
-              Object result = webElementExpectedCondition.apply(driver);
-              return result != null
-                      && result.getClass().getTypeName().toLowerCase().contains("boolean")
-                  ? (boolean) result
-                  : result != null;
-            });
+  public Element find(MultiPlatformFinder selector) {
+    try {
+      return new Element(driver, new ByChained(locator, buildLocator(selector)));
+    } catch (Exception ex) {
+      throw new RuntimeException(String.format("Element with selector: %s not found", locator));
+    }
   }
 }
