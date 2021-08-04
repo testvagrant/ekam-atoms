@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import java.time.Duration;
 
-class BaseElement {
+class BaseMobileElement {
 
   protected final AppiumDriver<MobileElement> driver;
   protected By locator;
@@ -21,13 +21,13 @@ class BaseElement {
   protected Duration timeout;
   protected QueryFunctions queryFunctions;
 
-  BaseElement(AppiumDriver<MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
+  BaseMobileElement(AppiumDriver<MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
     this.driver = driver;
     this.locator = buildLocator(multiPlatformFinder);
     init();
   }
 
-  BaseElement(AppiumDriver<MobileElement> driver, By locator) {
+  BaseMobileElement(AppiumDriver<MobileElement> driver, By locator) {
     this.driver = driver;
     this.locator = locator;
     init();

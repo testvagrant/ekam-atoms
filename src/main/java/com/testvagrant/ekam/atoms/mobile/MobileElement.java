@@ -3,7 +3,6 @@ package com.testvagrant.ekam.atoms.mobile;
 import com.google.inject.Inject;
 import com.testvagrant.ekam.atoms.MultiPlatformFinder;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
 import org.openqa.selenium.By;
@@ -13,17 +12,17 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
-public class Element extends BaseElement {
+public class MobileElement extends BaseMobileElement {
 
-  private MobileElement element;
+  private io.appium.java_client.MobileElement element;
 
   @Inject
-  public Element(AppiumDriver<MobileElement> driver, By locator) {
+  public MobileElement(AppiumDriver<io.appium.java_client.MobileElement> driver, By locator) {
     super(driver, locator);
   }
 
   @Inject
-  public Element(AppiumDriver<MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
+  public MobileElement(AppiumDriver<io.appium.java_client.MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
     super(driver, multiPlatformFinder);
   }
 
@@ -35,7 +34,7 @@ public class Element extends BaseElement {
     return getElement().getAttribute(attribute);
   }
 
-  public Element click() {
+  public MobileElement click() {
     waitUntilPresent();
     getElement().click();
     return this;
@@ -67,7 +66,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilDisplayed() {
+  public MobileElement waitUntilDisplayed() {
     try {
       waitUntilCondition(ExpectedConditions.visibilityOfElementLocated(locator));
       return this;
@@ -77,7 +76,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilDisplayed(Duration duration) {
+  public MobileElement waitUntilDisplayed(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.visibilityOfElementLocated(locator), duration);
       return this;
@@ -87,7 +86,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilInvisible() {
+  public MobileElement waitUntilInvisible() {
     try {
       waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator));
       return this;
@@ -97,7 +96,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilInvisible(Duration duration) {
+  public MobileElement waitUntilInvisible(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator), duration);
       return this;
@@ -107,7 +106,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilPresent() {
+  public MobileElement waitUntilPresent() {
     try {
       waitUntilCondition(ExpectedConditions.presenceOfElementLocated(locator));
       return this;
@@ -117,7 +116,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilPresent(Duration duration) {
+  public MobileElement waitUntilPresent(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.presenceOfElementLocated(locator), duration);
       return this;
@@ -127,7 +126,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilTextToBePresent(String text) {
+  public MobileElement waitUntilTextToBePresent(String text) {
     try {
       waitUntilCondition(ExpectedConditions.textToBePresentInElementLocated(locator, text));
       return this;
@@ -139,7 +138,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilTextToBePresent(String text, Duration duration) {
+  public MobileElement waitUntilTextToBePresent(String text, Duration duration) {
     try {
       waitUntilCondition(
           ExpectedConditions.textToBePresentInElementLocated(locator, text), duration);
@@ -152,7 +151,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilTextToBePresent() {
+  public MobileElement waitUntilTextToBePresent() {
     try {
       wait.until(() -> !getTextValue().trim().isEmpty());
       return this;
@@ -163,7 +162,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilTextToBePresent(Duration duration) {
+  public MobileElement waitUntilTextToBePresent(Duration duration) {
     try {
       wait.atMost(duration).until(() -> !getTextValue().trim().isEmpty());
       return this;
@@ -174,7 +173,7 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element waitUntilTextNotToBe(String text, boolean partial) {
+  public MobileElement waitUntilTextNotToBe(String text, boolean partial) {
     try {
       wait.until(
           () ->
@@ -190,12 +189,12 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element tap() {
+  public MobileElement tap() {
     touchAction.tap(ElementOption.element(getElement())).perform();
     return this;
   }
 
-  public Element longPress() {
+  public MobileElement longPress() {
     touchAction
         .longPress(ElementOption.element(getElement()))
         .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
@@ -204,7 +203,7 @@ public class Element extends BaseElement {
     return this;
   }
 
-  public MobileElement getElement() {
+  public io.appium.java_client.MobileElement getElement() {
     try {
       wait.atMost(Duration.ofSeconds(5)).until(() -> driver.findElement(locator) != null);
       return driver.findElement(locator);
@@ -233,9 +232,9 @@ public class Element extends BaseElement {
     }
   }
 
-  public Element find(By selector) {
+  public MobileElement find(By selector) {
     try {
-      return new Element(driver, new ByChained(locator, selector));
+      return new MobileElement(driver, new ByChained(locator, selector));
     } catch (Exception ex) {
       throw new RuntimeException(String.format("Element with selector: %s not found", locator));
     }

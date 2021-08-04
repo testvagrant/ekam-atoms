@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import java.util.function.Function;
 
-public class Element extends BaseElement {
+public class Element extends BaseWebElement {
 
   @Inject
   public Element(WebDriver driver, By locator) {

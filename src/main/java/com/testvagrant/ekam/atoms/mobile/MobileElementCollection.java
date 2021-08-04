@@ -14,15 +14,15 @@ import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ElementCollection extends BaseElement {
+public class MobileElementCollection extends BaseMobileElement {
 
   @Inject
-  public ElementCollection(AppiumDriver<MobileElement> driver, By locator) {
+  public MobileElementCollection(AppiumDriver<MobileElement> driver, By locator) {
     super(driver, locator);
   }
 
   @Inject
-  public ElementCollection(
+  public MobileElementCollection(
       AppiumDriver<MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
     super(driver, multiPlatformFinder);
   }
@@ -48,7 +48,7 @@ public class ElementCollection extends BaseElement {
     return driver.findElements(locator);
   }
 
-  public ElementCollection waitUntilPresent() {
+  public MobileElementCollection waitUntilPresent() {
     try {
       waitUntilCondition(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
       return this;
@@ -58,7 +58,7 @@ public class ElementCollection extends BaseElement {
     }
   }
 
-  public ElementCollection waitUntilPresent(Duration duration) {
+  public MobileElementCollection waitUntilPresent(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.presenceOfAllElementsLocatedBy(locator), duration);
       return this;
@@ -68,7 +68,7 @@ public class ElementCollection extends BaseElement {
     }
   }
 
-  public ElementCollection waitUntilVisible() {
+  public MobileElementCollection waitUntilVisible() {
     try {
       waitUntilCondition(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
       return this;
@@ -78,7 +78,7 @@ public class ElementCollection extends BaseElement {
     }
   }
 
-  public ElementCollection waitUntilVisible(Duration duration) {
+  public MobileElementCollection waitUntilVisible(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator), duration);
       return this;
@@ -88,7 +88,7 @@ public class ElementCollection extends BaseElement {
     }
   }
 
-  public ElementCollection waitUntilInVisible() {
+  public MobileElementCollection waitUntilInVisible() {
     try {
       waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator));
       return this;
@@ -98,7 +98,7 @@ public class ElementCollection extends BaseElement {
     }
   }
 
-  public ElementCollection waitUntilInVisible(Duration duration) {
+  public MobileElementCollection waitUntilInVisible(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator), duration);
       return this;
@@ -108,7 +108,7 @@ public class ElementCollection extends BaseElement {
     }
   }
 
-  public ElementCollection waitUntilElementCountToBeMoreThan(int elementCountToBeGreaterThan) {
+  public MobileElementCollection waitUntilElementCountToBeMoreThan(int elementCountToBeGreaterThan) {
     try {
       waitUntilCondition(
           ExpectedConditions.numberOfElementsToBeMoreThan(locator, elementCountToBeGreaterThan));
@@ -119,7 +119,7 @@ public class ElementCollection extends BaseElement {
     }
   }
 
-  public ElementCollection waitUntilElementCountToBeMoreThan(
+  public MobileElementCollection waitUntilElementCountToBeMoreThan(
       int elementCountToBeGreaterThan, Duration duration) {
     try {
       waitUntilCondition(
@@ -132,7 +132,7 @@ public class ElementCollection extends BaseElement {
     }
   }
 
-  public ElementCollection waitUntilElementCountToBeLessThan(int elementCountToBeLessThan) {
+  public MobileElementCollection waitUntilElementCountToBeLessThan(int elementCountToBeLessThan) {
     try {
       waitUntilCondition(
           ExpectedConditions.numberOfElementsToBeLessThan(locator, elementCountToBeLessThan));
@@ -143,7 +143,7 @@ public class ElementCollection extends BaseElement {
     }
   }
 
-  public ElementCollection waitUntilElementCountToBeLessThan(
+  public MobileElementCollection waitUntilElementCountToBeLessThan(
       int elementCountToBeLessThan, Duration duration) {
     try {
       waitUntilCondition(

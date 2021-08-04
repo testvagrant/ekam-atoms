@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import java.time.Duration;
 
-class BaseElement {
+class BaseWebElement {
 
   protected final WebDriver driver;
   protected By locator;
@@ -19,13 +19,13 @@ class BaseElement {
   protected Duration timeout;
   protected QueryFunctions queryFunctions;
 
-  BaseElement(WebDriver driver, MultiPlatformFinder multiPlatformFinder) {
+  BaseWebElement(WebDriver driver, MultiPlatformFinder multiPlatformFinder) {
     this.driver = driver;
     this.locator = buildLocator(multiPlatformFinder);
     init();
   }
 
-  BaseElement(WebDriver driver, By locator) {
+  BaseWebElement(WebDriver driver, By locator) {
     this.driver = driver;
     this.locator = locator;
     init();
