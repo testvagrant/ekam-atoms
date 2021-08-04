@@ -13,7 +13,7 @@ public class QueryFunctions {
   }
 
   public By query(String value) {
-    return By.xpath(value); // Default mobile query is by xpath
+    return By.xpath(value);
   }
 
   public By queryByText(String tagName, String text) {

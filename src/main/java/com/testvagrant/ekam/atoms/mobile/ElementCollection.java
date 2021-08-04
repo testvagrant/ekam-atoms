@@ -7,25 +7,22 @@ import org.awaitility.Awaitility;
 import org.awaitility.core.ConditionFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ElementCollection {
-  protected final By locator;
-  private final AppiumDriver<MobileElement> driver;
-  private final ConditionFactory wait;
-  private final Duration timeout;
+public class ElementCollection extends BaseElement {
 
   @Inject
   public ElementCollection(AppiumDriver<MobileElement> driver, By locator) {
-    this.driver = driver;
-    this.timeout = Duration.ofSeconds(30);
-    this.locator = locator;
-    this.wait = buildFluentWait(timeout); // Default Timeout
+    super(driver, locator);
+  }
+
+  @Inject
+  public ElementCollection(AppiumDriver<MobileElement> driver, Finder finder) {
+    super(driver, finder);
   }
 
   public List<String> getTextValues() {
@@ -159,22 +156,5 @@ public class ElementCollection {
 
   private ConditionFactory buildFluentWait(Duration duration) {
     return Awaitility.await().atMost(duration).ignoreExceptions();
-  }
-
-  private <T> void waitUntilCondition(ExpectedCondition<T> webElementExpectedCondition) {
-    waitUntilCondition(webElementExpectedCondition, timeout);
-  }
-
-  private <T> void waitUntilCondition(
-      ExpectedCondition<T> webElementExpectedCondition, Duration duration) {
-    wait.atMost(duration)
-        .until(
-            () -> {
-              Object result = webElementExpectedCondition.apply(driver);
-              return result != null
-                      && result.getClass().getTypeName().toLowerCase().contains("boolean")
-                  ? (boolean) result
-                  : result != null;
-            });
   }
 }

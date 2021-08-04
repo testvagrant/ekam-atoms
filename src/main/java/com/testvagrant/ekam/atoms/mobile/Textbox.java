@@ -12,6 +12,11 @@ public class Textbox extends Element {
     super(driver, locator);
   }
 
+  @Inject
+  public Textbox(AppiumDriver<MobileElement> driver, Finder finder) {
+    super(driver, finder);
+  }
+
   public void setText(CharSequence value) {
     super.getElement().sendKeys(value);
   }

@@ -18,6 +18,12 @@ dependencies {
     implementation('org.seleniumhq.selenium:selenium-java:3.141.59')
     implementation('io.appium:java-client:7.5.1')
 
+    //lombok
+    implementation('org.projectlombok:lombok:1.18.20')
+    annotationProcessor('org.projectlombok:lombok:1.18.20')
+    testImplementation('org.projectlombok:lombok:1.18.20')
+    testAnnotationProcessor('org.projectlombok:lombok:1.18.20')
+
     // generic wait
     implementation('org.awaitility:awaitility:4.1.0')
 }
@@ -44,7 +50,7 @@ publishing {
             customizePom(pom)
             groupId 'com.testvagrant.ekam'
             artifactId 'ekam-atoms'
-            version '0.0.1-beta'
+            version '0.0.2-beta'
 
             from components.java
 
@@ -126,7 +132,6 @@ model {
 task runTests(type: Test) {
     useTestNG()
 }
-
 
 signing {
     sign publishing.publications
