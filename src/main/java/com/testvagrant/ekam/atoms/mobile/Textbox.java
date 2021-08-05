@@ -5,7 +5,7 @@ import com.testvagrant.ekam.atoms.MultiPlatformFinder;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
-public class Textbox extends MobileElement {
+public class Textbox extends Element {
 
   @Inject
   public Textbox(AppiumDriver<io.appium.java_client.MobileElement> driver, By locator) {
