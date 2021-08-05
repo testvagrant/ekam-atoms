@@ -90,26 +90,26 @@ def customizePom(pom) {
 
             description 'Ekam atoms for all common driver actions'
             name 'Atoms'
-            url 'https://gitlab.com/testvagrant/automation-studio/ekam-atoms'
+            url 'https://github.com/testvagrant/ekam-atoms'
             organization {
                 name 'com.testvagrant.optimus'
-                url 'https://gitlab.com/testvagrant/automation-studio'
+                url 'https://github.com/testvagrant'
             }
             issueManagement {
                 system 'GitLab'
-                url 'https://gitlab.com/testvagrant/automation-studio/ekam-atoms/issues'
+                url 'https://github.com/testvagrant/ekam-atoms/issues'
             }
             licenses {
                 license {
                     name 'MIT License'
-                    url 'https://gitlab.com/testvagrant/automation-studio/ekam/-/blob/master/LICENSE'
+                    url 'https://github.com/testvagrant/ekam-atoms/-/blob/master/LICENSE'
                     distribution 'repo'
                 }
             }
             scm {
-                url 'https://gitlab.com/testvagrant/automation-studio/ekam-atoms'
-                connection 'https://gitlab.com/testvagrant/automation-studio/ekam-atoms.git'
-                developerConnection 'git@gitlab.com:testvagrant/automation-studio/ekam-atoms.git'
+                url 'https://github.com/testvagrant/ekam-atoms'
+                connection 'https://github.com/testvagrant/ekam-atoms.git'
+                developerConnection 'git@github.com:testvagrant/ekam-atoms.git'
             }
             developers {
                 developer {
