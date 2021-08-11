@@ -84,19 +84,14 @@ public class Element extends BaseWebElement {
     }
   }
 
+  public Element scrollIntoView() {
+    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", getElement());
+    return this;
+  }
+
   public Element waitUntilDisplayed() {
     try {
       waitUntilCondition(ExpectedConditions.visibilityOfElementLocated(locator));
-      return this;
-    } catch (Exception ex) {
-      throw new RuntimeException(
-          String.format("Error waiting for element with selector: %s to be displayed.", locator));
-    }
-  }
-
-  public Element waitUntilDisplayed(Duration duration) {
-    try {
-      waitUntilCondition(ExpectedConditions.visibilityOfElementLocated(locator), duration);
       return this;
     } catch (Exception ex) {
       throw new RuntimeException(
@@ -114,6 +109,16 @@ public class Element extends BaseWebElement {
     }
   }
 
+  public Element waitUntilPresent() {
+    try {
+      waitUntilCondition(ExpectedConditions.presenceOfElementLocated(locator));
+      return this;
+    } catch (Exception ex) {
+      throw new RuntimeException(
+          String.format("Error waiting for element presence with selector: %s.", locator));
+    }
+  }
+
   public Element waitUntilInvisible(Duration duration) {
     try {
       waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator), duration);
@@ -124,13 +129,13 @@ public class Element extends BaseWebElement {
     }
   }
 
-  public Element waitUntilPresent() {
+  public Element waitUntilDisplayed(Duration duration) {
     try {
-      waitUntilCondition(ExpectedConditions.presenceOfElementLocated(locator));
+      waitUntilCondition(ExpectedConditions.visibilityOfElementLocated(locator), duration);
       return this;
     } catch (Exception ex) {
       throw new RuntimeException(
-          String.format("Error waiting for element presence with selector: %s.", locator));
+          String.format("Error waiting for element with selector: %s to be displayed.", locator));
     }
   }
 
@@ -142,11 +147,6 @@ public class Element extends BaseWebElement {
       throw new RuntimeException(
           String.format("Error waiting for element presence with selector: %s.", locator));
     }
-  }
-
-  public Element scrollIntoView() {
-    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", getElement());
-    return this;
   }
 
   public Element waitUntil(Function<Element, Boolean> condition) {

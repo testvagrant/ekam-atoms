@@ -50,7 +50,7 @@ publishing {
             customizePom(pom)
             groupId 'com.testvagrant.ekam'
             artifactId 'ekam-atoms'
-            version '0.0.4-beta'
+            version '0.0.5-beta'
 
             from components.java
 

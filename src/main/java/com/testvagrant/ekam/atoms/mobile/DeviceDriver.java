@@ -5,8 +5,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.interactions.Actions;
 
-import java.util.Set;
-
 public class DeviceDriver {
 
   private final Actions actions;
@@ -16,15 +14,6 @@ public class DeviceDriver {
   public DeviceDriver(AppiumDriver<MobileElement> driver) {
     this.driver = driver;
     this.actions = new Actions(driver);
-  }
-
-  public void openDeeplink(String link) {
-    driver.get(link);
-  }
-
-  public void switchToWebView() {
-    Set<String> contextHandles = driver.getContextHandles();
-    contextHandles.forEach(driver::context);
   }
 
   public void navigateBack() {

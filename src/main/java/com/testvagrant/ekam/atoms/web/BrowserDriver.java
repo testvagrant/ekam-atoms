@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import org.awaitility.Awaitility;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -88,5 +89,9 @@ public class BrowserDriver {
 
   public void scrollToBottom() {
     jsDriver().executeScript("window.scrollTo(0, document.body.scrollHeight)");
+  }
+
+  public LogEntries getBrowserLogs() {
+    return driver.manage().logs().get("browser");
   }
 }

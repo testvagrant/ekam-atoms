@@ -3,9 +3,11 @@ package com.testvagrant.ekam.atoms.mobile;
 import com.google.inject.Inject;
 import com.testvagrant.ekam.atoms.MultiPlatformFinder;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,15 +16,17 @@ import java.time.Duration;
 
 public class Element extends BaseMobileElement {
 
-  private io.appium.java_client.MobileElement element;
+  private MobileElement element;
 
   @Inject
-  public Element(AppiumDriver<io.appium.java_client.MobileElement> driver, By locator) {
+  public Element(AppiumDriver<MobileElement> driver, By locator) {
     super(driver, locator);
   }
 
   @Inject
-  public Element(AppiumDriver<io.appium.java_client.MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
+  public Element(
+      AppiumDriver<io.appium.java_client.MobileElement> driver,
+      MultiPlatformFinder multiPlatformFinder) {
     super(driver, multiPlatformFinder);
   }
 
@@ -66,19 +70,14 @@ public class Element extends BaseMobileElement {
     }
   }
 
+  public Element scrollIntoView() {
+    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", getElement());
+    return this;
+  }
+
   public Element waitUntilDisplayed() {
     try {
       waitUntilCondition(ExpectedConditions.visibilityOfElementLocated(locator));
-      return this;
-    } catch (Exception ex) {
-      throw new RuntimeException(
-          String.format("Error waiting for element with selector: %s to be displayed.", locator));
-    }
-  }
-
-  public Element waitUntilDisplayed(Duration duration) {
-    try {
-      waitUntilCondition(ExpectedConditions.visibilityOfElementLocated(locator), duration);
       return this;
     } catch (Exception ex) {
       throw new RuntimeException(
@@ -96,16 +95,6 @@ public class Element extends BaseMobileElement {
     }
   }
 
-  public Element waitUntilInvisible(Duration duration) {
-    try {
-      waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator), duration);
-      return this;
-    } catch (Exception ex) {
-      throw new RuntimeException(
-          String.format("Error waiting for element with selector: %s to be invisible.", locator));
-    }
-  }
-
   public Element waitUntilPresent() {
     try {
       waitUntilCondition(ExpectedConditions.presenceOfElementLocated(locator));
@@ -113,6 +102,26 @@ public class Element extends BaseMobileElement {
     } catch (Exception ex) {
       throw new RuntimeException(
           String.format("Error waiting for element presence with selector: %s.", locator));
+    }
+  }
+
+  public Element waitUntilDisplayed(Duration duration) {
+    try {
+      waitUntilCondition(ExpectedConditions.visibilityOfElementLocated(locator), duration);
+      return this;
+    } catch (Exception ex) {
+      throw new RuntimeException(
+          String.format("Error waiting for element with selector: %s to be displayed.", locator));
+    }
+  }
+
+  public Element waitUntilInvisible(Duration duration) {
+    try {
+      waitUntilCondition(ExpectedConditions.invisibilityOfElementLocated(locator), duration);
+      return this;
+    } catch (Exception ex) {
+      throw new RuntimeException(
+          String.format("Error waiting for element with selector: %s to be invisible.", locator));
     }
   }
 
@@ -138,6 +147,17 @@ public class Element extends BaseMobileElement {
     }
   }
 
+  public Element waitUntilTextToBePresent() {
+    try {
+      wait.until(() -> !getTextValue().trim().isEmpty());
+      return this;
+    } catch (Exception ex) {
+      throw new RuntimeException(
+          String.format(
+              "Error waiting for text to be present in element with selector: %s.", locator));
+    }
+  }
+
   public Element waitUntilTextToBePresent(String text, Duration duration) {
     try {
       waitUntilCondition(
@@ -148,17 +168,6 @@ public class Element extends BaseMobileElement {
           String.format(
               "Error waiting for text: '%s' to be present in element with selector: %s",
               text, locator));
-    }
-  }
-
-  public Element waitUntilTextToBePresent() {
-    try {
-      wait.until(() -> !getTextValue().trim().isEmpty());
-      return this;
-    } catch (Exception ex) {
-      throw new RuntimeException(
-          String.format(
-              "Error waiting for text to be present in element with selector: %s.", locator));
     }
   }
 
@@ -203,7 +212,7 @@ public class Element extends BaseMobileElement {
     return this;
   }
 
-  public io.appium.java_client.MobileElement getElement() {
+  public MobileElement getElement() {
     try {
       wait.atMost(Duration.ofSeconds(5)).until(() -> driver.findElement(locator) != null);
       return driver.findElement(locator);
