@@ -1,3 +1,5 @@
+# 0.0.5-beta
+
 # 0.0.4-beta
 * Renamed MobileElement | MobileElementCollection to Element & ElementCollection to avoid confict with appium MobileElement
 
