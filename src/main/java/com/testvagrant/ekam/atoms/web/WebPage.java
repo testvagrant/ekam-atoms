@@ -14,8 +14,16 @@ public class WebPage extends QueryFunctions {
     return new Element(driver, locator);
   }
 
+  protected Element element(MultiPlatformFinder finder) {
+    return new Element(driver, finder);
+  }
+
   protected Textbox textbox(By locator) {
     return new Textbox(driver, locator);
+  }
+
+  protected Textbox textbox(MultiPlatformFinder finder) {
+    return new Textbox(driver, finder);
   }
 
   protected Dropdown dropdown(By locator) {
@@ -31,5 +39,13 @@ public class WebPage extends QueryFunctions {
 
   protected ElementCollection elementCollection(By locator) {
     return new ElementCollection(driver, locator);
+  }
+
+  @Override
+  public String toString() {
+    return "{"
+            + "\"browserDriver\":" + browserDriver
+            + ", \"driver\":" + driver
+            + "}";
   }
 }

@@ -41,4 +41,6 @@ public abstract class MobileScreen extends QueryFunctions {
   protected MultiPlatformFinder finder(By androidFindBy, By iosFindBy) {
     return MultiPlatformFinder.builder().androidFindBy(androidFindBy).iosFindBy(iosFindBy).build();
   }
+
+
 }
