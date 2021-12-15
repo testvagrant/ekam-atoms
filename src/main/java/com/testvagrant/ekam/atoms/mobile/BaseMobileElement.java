@@ -56,9 +56,9 @@ class BaseMobileElement {
   }
 
   private void init() {
+    this.timeout = Duration.ofSeconds(30);
     this.wait = buildFluentWait(timeout);
     this.touchAction = new TouchAction<>(driver);
-    this.timeout = Duration.ofSeconds(30);
     this.queryFunctions = new QueryFunctions();
   }
 
