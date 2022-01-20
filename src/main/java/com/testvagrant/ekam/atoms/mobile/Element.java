@@ -214,7 +214,7 @@ public class Element extends BaseMobileElement {
 
   public MobileElement getElement() {
     try {
-      wait.atMost(Duration.ofSeconds(5)).until(() -> driver.findElement(locator) != null);
+      wait.atMost(Duration.ofSeconds(10)).until(() -> driver.findElement(locator) != null);
       return driver.findElement(locator);
     } catch (Exception ex) {
       throw new RuntimeException(String.format("Element with selector: %s not found", locator));
