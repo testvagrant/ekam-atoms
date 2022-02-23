@@ -38,7 +38,7 @@ public class ElementCollection extends BaseMobileElement {
   }
 
   public List<MobileElement> get() {
-    wait.atMost(Duration.ofSeconds(10))
+    wait.atMost(Duration.ofSeconds(30))
         .until(
             () -> {
               List<MobileElement> elements = driver.findElements(locator);
