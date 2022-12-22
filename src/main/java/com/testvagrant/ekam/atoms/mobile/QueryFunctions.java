@@ -41,7 +41,7 @@ public class QueryFunctions {
   }
 
   public By queryByTagName(String tagName) {
-    return By.linkText(tagName);
+    return query(String.format("//%s", tagName));
   }
 
   public By queryByAttribute(String attributeName, String value) {
