@@ -38,5 +38,13 @@ public abstract class MobileScreen extends QueryFunctions {
         return MultiPlatformFinder.builder().androidFindBy(androidFindBy).iosFindBy(iosFindBy).build();
     }
 
+    @SuppressWarnings("unchecked")
+    protected <T extends WebDriver> T getDriver(Class<T> driverType) {
+        if (driverType.isInstance(driver)) {
+            return (T) driver;
+        } else {
+            throw new IllegalArgumentException("Driver is not an instance of " + driverType.getName());
+        }
+    }
 
 }
