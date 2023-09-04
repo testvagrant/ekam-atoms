@@ -19,10 +19,6 @@ public class DeviceDriver {
         driver.navigate().back();
     }
 
-//  public void hideKeyboard() {
-//    driver.hideKeyboard();
-//  }
-
     public void sendKeys(String value) {
         int valueLength = value.length();
         for (int counter = 0; counter < valueLength; counter++) {

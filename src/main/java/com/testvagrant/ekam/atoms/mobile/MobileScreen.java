@@ -2,6 +2,8 @@ package com.testvagrant.ekam.atoms.mobile;
 
 import com.google.inject.Inject;
 import com.testvagrant.ekam.atoms.MultiPlatformFinder;
+import com.testvagrant.ekam.atoms.mobile.android.AndroidDeviceDriver;
+import com.testvagrant.ekam.atoms.mobile.ios.IOSDeviceDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -9,6 +11,8 @@ public abstract class MobileScreen extends QueryFunctions {
 
     @Inject
     protected WebDriver driver;
+    @Inject protected AndroidDeviceDriver androidDeviceDriver;
+    @Inject protected IOSDeviceDriver iosDeviceDriver;
 
     protected Element element(By locator) {
         return new Element(driver, locator);
@@ -36,15 +40,6 @@ public abstract class MobileScreen extends QueryFunctions {
 
     protected MultiPlatformFinder finder(By androidFindBy, By iosFindBy) {
         return MultiPlatformFinder.builder().androidFindBy(androidFindBy).iosFindBy(iosFindBy).build();
-    }
-
-    @SuppressWarnings("unchecked")
-    protected <T extends WebDriver> T getDriver(Class<T> driverType) {
-        if (driverType.isInstance(driver)) {
-            return (T) driver;
-        } else {
-            throw new IllegalArgumentException("Driver is not an instance of " + driverType.getName());
-        }
     }
 
 }
