@@ -25,4 +25,12 @@ public class DeviceDriver {
             actions.sendKeys(String.valueOf(value.charAt(counter))).build().perform();
         }
     }
+
+    protected <T extends WebDriver> T getDriver(Class<T> driverType) {
+        if (driverType.isInstance(this.driver)) {
+            return (T) this.driver;
+        } else {
+            throw new IllegalArgumentException("Driver is not an instance of " + driverType.getName());
+        }
+    }
 }

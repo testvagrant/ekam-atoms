@@ -6,15 +6,12 @@ import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.WebDriver;
 
 public class IOSDeviceDriver extends DeviceDriver {
-  @Inject
-  public IOSDeviceDriver(WebDriver driver) {
-    super(driver);
-  }
-  public void hideKeyBoard(){
-    getIosDriver().hideKeyboard();
-  }
+    @Inject
+    public IOSDeviceDriver(WebDriver driver) {
+        super(driver);
+    }
 
-  public IOSDriver getIosDriver(){
-    return ((IOSDriver) driver);
-  }
+    public void hideKeyBoard() {
+        getDriver(IOSDriver.class).hideKeyboard();
+    }
 }
