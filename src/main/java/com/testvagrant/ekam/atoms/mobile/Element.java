@@ -2,8 +2,6 @@ package com.testvagrant.ekam.atoms.mobile;
 
 import com.google.inject.Inject;
 import com.testvagrant.ekam.atoms.MultiPlatformFinder;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.ElementOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -195,20 +193,6 @@ public class Element extends BaseMobileElement {
                             "Error waiting for text not to be '%s' in element with selector: %s.",
                             text, locator));
         }
-    }
-
-    public Element tap() {
-        touchAction.tap(ElementOption.element(getElement())).perform();
-        return this;
-    }
-
-    public Element longPress() {
-        touchAction
-                .longPress(ElementOption.element(getElement()))
-                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
-                .perform();
-
-        return this;
     }
 
     public WebElement getElement() {

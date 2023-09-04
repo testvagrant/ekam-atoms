@@ -1,9 +1,6 @@
 package com.testvagrant.ekam.atoms.mobile;
 
 import com.testvagrant.ekam.atoms.MultiPlatformFinder;
-import com.testvagrant.ekam.atoms.mobile.ios.IOSDeviceDriver;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import org.awaitility.Awaitility;
 import org.awaitility.core.ConditionFactory;
@@ -19,7 +16,6 @@ class BaseMobileElement {
 
     protected By locator;
     protected ConditionFactory wait;
-    protected TouchAction<?> touchAction;
     protected Duration timeout;
     protected QueryFunctions queryFunctions;
 
@@ -60,7 +56,6 @@ class BaseMobileElement {
     private void init() {
         this.timeout = Duration.ofSeconds(30);
         this.wait = buildFluentWait(timeout);
-//        this.touchAction = new TouchAction<>(androidDriver);
         this.queryFunctions = new QueryFunctions();
     }
 
