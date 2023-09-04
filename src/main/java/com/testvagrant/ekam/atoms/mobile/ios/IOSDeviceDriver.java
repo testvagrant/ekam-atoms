@@ -12,6 +12,10 @@ public class IOSDeviceDriver extends DeviceDriver {
     }
 
     public void hideKeyBoard() {
-        getDriver(IOSDriver.class).hideKeyboard();
+        getDriver().hideKeyboard();
+    }
+
+    public IOSDriver getDriver(){
+        return getDriver(IOSDriver.class);
     }
 }

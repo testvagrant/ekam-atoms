@@ -15,10 +15,14 @@ public class AndroidDeviceDriver extends DeviceDriver {
     }
 
     public void pressKey(AndroidKey key) {
-        getDriver(AndroidDriver.class).pressKey(new KeyEvent(key));
+        getDriver().pressKey(new KeyEvent(key));
     }
 
     public void hideKeyBoard() {
-        getDriver(AndroidDriver.class).hideKeyboard();
+        getDriver().hideKeyboard();
+    }
+
+    public AndroidDriver getDriver(){
+        return getDriver(AndroidDriver.class);
     }
 }
