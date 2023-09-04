@@ -2,18 +2,19 @@ package com.testvagrant.ekam.atoms.mobile.android;
 
 import com.google.inject.Inject;
 import com.testvagrant.ekam.atoms.mobile.DeviceDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import org.openqa.selenium.WebDriver;
 
 public class AndroidDeviceDriver extends DeviceDriver {
 
-    protected WebDriver driver;
-
     @Inject
-    public AndroidDeviceDriver(WebDriver androidDriver) {
-        super(androidDriver);
+    public AndroidDeviceDriver(WebDriver driver) {
+        super(driver);
     }
 
-//  public void pressKey(AndroidKey key) {
-//    driver.pressKey(new KeyEvent(key));
-//  }
+  public void pressKey(AndroidKey key) {
+      ((AndroidDriver)driver).pressKey(new KeyEvent(key));
+  }
 }
