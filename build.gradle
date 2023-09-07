@@ -4,7 +4,7 @@ plugins {
     id 'signing'
 }
 
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -26,6 +26,8 @@ dependencies {
 
     // generic wait
     implementation('org.awaitility:awaitility:4.1.0')
+
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 task sourceJar(type: Jar) {
@@ -138,3 +140,4 @@ task runTests(type: Test) {
 signing {
     sign publishing.publications
 }
+targetCompatibility = JavaVersion.VERSION_14
