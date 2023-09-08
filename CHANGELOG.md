@@ -1,3 +1,6 @@
+# 1.0.3
+* Support for appium 2.0 and selenium 4.x.x
+
 # 1.0.2
 * Updated wait time for get() in element collection
 # 0.0.5-beta
