@@ -198,4 +198,22 @@ public class Element extends BaseWebElement {
       throw new RuntimeException(String.format("Element with selector: %s not found", locator));
     }
   }
+
+  public Element rightClick() {
+    waitUntilPresent();
+    actions.contextClick(getElement());
+    return this;
+  }
+
+  public Element doubleClick(){
+    waitUntilPresent();
+    actions.doubleClick(getElement());
+    return this;
+  }
+
+  public Element clickAndHold(){
+    waitUntilPresent();
+    actions.clickAndHold(getElement());
+    return this;
+  }
 }

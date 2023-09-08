@@ -4,16 +4,17 @@ import com.google.inject.Inject;
 import com.testvagrant.ekam.atoms.MultiPlatformFinder;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 public class Textbox extends Element {
 
   @Inject
-  public Textbox(AppiumDriver<io.appium.java_client.MobileElement> driver, By locator) {
+  public Textbox(WebDriver driver, By locator) {
     super(driver, locator);
   }
 
   @Inject
-  public Textbox(AppiumDriver<io.appium.java_client.MobileElement> driver, MultiPlatformFinder multiPlatformFinder) {
+  public Textbox(WebDriver driver, MultiPlatformFinder multiPlatformFinder) {
     super(driver, multiPlatformFinder);
   }
 

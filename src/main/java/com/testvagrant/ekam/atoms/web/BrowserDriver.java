@@ -70,12 +70,12 @@ public class BrowserDriver {
   }
 
   public void waitForFrameToLoad(String frameId) {
-    WebDriverWait webDriverWait = new WebDriverWait(this.driver, 30);
+    WebDriverWait webDriverWait = new WebDriverWait(this.driver, Duration.ofSeconds(30));
     webDriverWait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameId));
   }
 
   public void waitForFrameToLoad(Integer index) {
-    WebDriverWait webDriverWait = new WebDriverWait(this.driver, 30);
+    WebDriverWait webDriverWait = new WebDriverWait(this.driver, Duration.ofSeconds(30));
     webDriverWait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(index));
   }
 
